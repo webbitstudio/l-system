@@ -7,7 +7,7 @@ export const fractalPlant = {
     angle: 90,
     rotate: 21,
     reduceRatio: 0.8,
-    speed: 100,
+    speed: 50,
     rules: [
         {val: 'X', result: 'F+[[X]-X]-F[-FX]+X'},
         {val: 'F', result: 'FF'}
@@ -23,7 +23,7 @@ export const fractalPlant2 = {
     angle: 90,
     rotate: 22.5,
     reduceRatio: 0.8,
-    speed: 100,
+    speed: 50,
     rules: [
         {val: 'F', result: 'FF+[+F-F-F]-[-F+F+F]F'}
     ]
@@ -55,7 +55,7 @@ export const dragonCurve = {
     angle: 90,
     rotate: 90,
     reduceRatio: 1,
-    speed: 2,
+    speed: 1,
     rules: [
         {val: 'X', result: 'X+YF+'},
         {val: 'Y', result: '-FX-Y'}

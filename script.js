@@ -6,29 +6,16 @@ import {
     octo
 } from './pattern.js'
 
-const model = fractalPlant;
-//const model = fractalPlant2;
-//const model = sierpinskiTriangle;
-//const model = dragonCurve;
-//const model = octo;
-
 const canvas = document.getElementById('canvas1');
+const btnInput = document.getElementById('apply');
+const patternInput = document.getElementById('pattern');
+const lineWidthInput = document.getElementById('lineWidth');
+const speedInput = document.getElementById('speed');
 const ctx = canvas.getContext('2d');
 
-const rules = model.rules;
-let rotate = model.rotate * Math.PI / 180;
-let step = model.step;
-
-
-let cX = 0;
-let cY = 0;
+const models = {fractalPlant, fractalPlant2, sierpinskiTriangle, dragonCurve, octo};
+let model, rules, rotate, step, next, cX, cY, angle, length, speed, str = null;
 let stackPos = [];
-let angle = null;
-let length = null;
-
-let next = 0;
-let str = model.axiom;
-
 
 function setup () {
     canvas.width = window.innerWidth;
@@ -36,18 +23,28 @@ function setup () {
     canvas.centerX = canvas.width / 2
     canvas.centerY = canvas.height / 2;
     
-    ctx.lineWidth = 2;
     initDraw();
     buildString();
+    loop();
 }
 
 function initDraw() {
-    next = 0;
+    console.log(patternInput.value)
+    model = models[patternInput.value]
+    rules = model.rules;
+    rotate = model.rotate * Math.PI / 180;
+    step = model.step;
     angle = model.angle * Math.PI / 180;
     length = model.length;
+    speed = model.speed * speedInput.value;
+
     cX = canvas.width * model.xPos;
     cY = canvas.height * model.yPos;
+
     ctx.clearRect(0,0, canvas.width, canvas.height);
+    ctx.lineWidth = lineWidthInput.value;
+
+    next = 0;
 }
 
 function buildString() {
@@ -64,14 +61,12 @@ function buildString() {
 }
 
 function loop() {
-    for (let i = next; i < next + model.speed; i++) {
-        // console.log(str.charAt(i))
+    for (let i = next; i < next + speed; i++) {
          ctx.strokeStyle = `hsl(${i % 360}, 50%, 50%)`;
-        // ctx.strokeStyle = 'white'
         dispatchChar(str.charAt(i))
     }
     if (next < str.length) {
-        next += model.speed;
+        next += speed;
         requestAnimationFrame(loop);
     }
 }
@@ -126,10 +121,7 @@ function setPosition() {
     angle = pos.a;
 }
 
-window.addEventListener('resize', () => {
-    setup();
-    loop();
-});
+btnInput.addEventListener('click', () => setup());
+window.addEventListener('resize', () => setup());
 
 setup();
-loop();
